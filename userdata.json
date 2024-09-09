@@ -1,0 +1,11 @@
+[
+  {
+    "firstname": "John",
+    "lastname": "Doe",
+    "username": "johndoe",
+    "employeecode": "12345",
+    "password": "$2a$10$VxLTxX7nM6C58834wwDSwu7J0eux23ZqbiDuqL.o8J4qZIspNlz8.",
+    "createdDate": "2024-09-09T08:09:24.435Z",
+    "modifiedDate": "2024-09-09T08:09:24.435Z"
+  }
+]

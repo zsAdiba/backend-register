@@ -1,0 +1,24 @@
+{
+  "name": "backend-register",
+  "version": "1.0.0",
+  "description": "Repository for server side module register of Root X CCSD Final Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "husnul",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.19.2",
+    "fs": "^0.0.1-security",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "backend-register"
+  }
+}
