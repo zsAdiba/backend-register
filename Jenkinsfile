@@ -12,7 +12,7 @@ pipeline {
 
     environment {
         APP_NAME = 'registration-api'
-        IMAGE_NAME = 'your-docker-username/${APP_NAME}' // Replace with your Docker Hub username or appropriate image name
+        IMAGE_NAME = 'root.ccsd.com/${APP_NAME}' // Replace with your Docker Hub username or appropriate image name
         DEPLOY_DIR = '/var/www/registration-api' // Directory to deploy the app
     }
 

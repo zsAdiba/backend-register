@@ -27,7 +27,7 @@ const swaggerOptions = {
             description: 'API to register new users',
         },
         servers: [{
-            url: 'http://localhost:3000',
+            url: 'http://localhost:3002',
         }]
     },
     apis: ['./server.js']
@@ -64,20 +64,27 @@ app.post('/register', async (req, res) => {
   const { username, password, email } = req.body;
 
   if (!username || !password || !email) {
-      return res.status(400).json({ message: 'All fields are required.' }); // Ensure this message matches your test expectation
+      return res.status(400).json({ message: 'All fields are required.' });
   }
 
   try {
-      await db.query('CALL registerUser(?, ?, ?)', [username, password, email]);
-      return res.status(200).json({ message: 'User successfully registered' });
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const userId = uuidv4();
+
+      // Connect to MySQL and execute stored procedure
+      const connection = await mysql.createConnection(dbConfig);
+      await connection.query('CALL registerUser(?, ?, ?)', [username, hashedPassword, email]);
+
+      res.status(200).json({ message: 'User successfully registered' });
+      connection.end();
   } catch (error) {
+      console.error(error); // Log the error for debugging
       if (error.code === 'ER_DUP_ENTRY') {
           return res.status(400).json({ message: 'Email already exists.' });
       }
-      return res.status(500).json({ message: 'Error registering user' });
+      return res.status(500).json({ message: 'Error registering user', error: error.message });
   }
 });
-
 
 // Start server
 const PORT = process.env.PORT || 3002;
