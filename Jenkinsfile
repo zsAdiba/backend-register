@@ -86,7 +86,8 @@ pipeline {
     post {
         always {
             // Clean up workspace after build
-            cleanWs()
+            //cleanWs()
+            echo 'Pipeline Build, Test, and Deployment finished.'
         }
         success {
             echo 'Build, Test, and Deployment completed successfully.'
