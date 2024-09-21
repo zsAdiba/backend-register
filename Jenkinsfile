@@ -44,6 +44,19 @@ pipeline {
             }
         }
 
+        stage('Start Server') {
+            when {
+                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
+            }
+            steps {
+                script {
+                    // Start the server if tests passed
+                    sh 'node server.js &'
+                    echo 'Server started successfully.'
+                }
+            }
+        }
+
         // stage('Build Docker Image') {
         //     steps {
         //         script {
