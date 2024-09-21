@@ -1,10 +1,12 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:latest'  // Use the Node.js image for the pipeline
-            args '-v jenkins_home:/var/lib/docker/volumes/jenkins_home/_data'
-        }
-    }
+    // agent {
+    //     docker {
+    //         image 'node:latest'  // Use the Node.js image for the pipeline
+    //         args '-v jenkins_home:/var/lib/docker/volumes/jenkins_home/_data'
+    //     }
+    // }
+
+    agent any
 
     tools {
         nodejs "NodeJS"  // Node.js installation name in Jenkins Global Tool Configuration
