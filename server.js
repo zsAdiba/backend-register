@@ -1,39 +1,41 @@
-const express = require('express');
-const bcrypt = require('bcryptjs');
-const mysql = require('mysql2/promise');
-const swaggerJsDoc = require('swagger-jsdoc');
-const swaggerUi = require('swagger-ui-express');
+import express from 'express';
+import bcrypt from 'bcryptjs';
+import { v4 as uuidv4 } from 'uuid';
+import mysql from 'mysql2/promise';
+import swaggerUi from 'swagger-ui-express';
+import swaggerJsdoc from 'swagger-jsdoc';
 
-// Initialize app and middleware
 const app = express();
 app.use(express.json());
 
-// MySQL Connection
+// Database connection
 const dbConfig = {
-  host: '181.215.246.169',
-  user: 'root', // Change to your MySQL username
-  password: 'root', // Change to your MySQL password
-  database: 'CCSD',
-  port: 3306,
+    host: '181.215.246.169',
+    user: 'root',
+    password: 'root',  // replace with your actual password
+    database: 'CCSD',
+    port: 3306
 };
 
 // Swagger setup
 const swaggerOptions = {
-  swaggerDefinition: {
-    openapi: '3.0.0',
-    info: {
-      title: 'Registration API',
-      version: '1.0.0',
-      description: 'API for user registration using MySQL',
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'User Registration API',
+            version: '1.0.0',
+            description: 'API to register new users',
+        },
+        servers: [{
+            url: 'http://localhost:3000',
+        }]
     },
-  },
-  apis: ['./server.js'],
+    apis: ['./server.js']
 };
 
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
+const swaggerDocs = swaggerJsdoc(swaggerOptions);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-// POST API for registration
 /**
  * @swagger
  * /register:
@@ -45,10 +47,6 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
  *         application/json:
  *           schema:
  *             type: object
- *             required:
- *               - username
- *               - password
- *               - email
  *             properties:
  *               username:
  *                 type: string
@@ -59,34 +57,32 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
  *     responses:
  *       200:
  *         description: User successfully registered
+ *       500:
+ *         description: Server error
  */
 app.post('/register', async (req, res) => {
   const { username, password, email } = req.body;
 
-  // Encrypt password
-  const hashedPassword = await bcrypt.hash(password, 10);
+  if (!username || !password || !email) {
+      return res.status(400).json({ message: 'All fields are required.' }); // Ensure this message matches your test expectation
+  }
 
   try {
-    // Connect to MySQL database
-    const connection = await mysql.createConnection(dbConfig);
-
-    // Call stored procedure to register user
-    const [rows] = await connection.execute(
-      'CALL registerUser(?, ?, ?)', 
-      [username, hashedPassword, email]  // Parameters for userName, userPWD, userEmail
-    );
-
-    await connection.end();
-
-    res.status(200).json({ message: 'User successfully registered', username });
+      await db.query('CALL registerUser(?, ?, ?)', [username, password, email]);
+      return res.status(200).json({ message: 'User successfully registered' });
   } catch (error) {
-    console.error('Database error:', error);
-    res.status(500).json({ message: 'An error occurred during registration', error });
+      if (error.code === 'ER_DUP_ENTRY') {
+          return res.status(400).json({ message: 'Email already exists.' });
+      }
+      return res.status(500).json({ message: 'Error registering user' });
   }
 });
 
+
 // Start server
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3002;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
 });
+
+export default app;
