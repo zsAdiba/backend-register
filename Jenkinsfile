@@ -42,16 +42,16 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    // Build the Docker image
-                    sh '''
-                    docker build -t ${IMAGE_NAME}:latest .
-                    '''
-                }
-            }
-        }
+        // stage('Build Docker Image') {
+        //     steps {
+        //         script {
+        //             // Build the Docker image
+        //             sh '''
+        //             docker build -t ${IMAGE_NAME}:latest .
+        //             '''
+        //         }
+        //     }
+        // }
         
         // stage('Check Deploy Directory') {
         //     steps {
