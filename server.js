@@ -17,6 +17,12 @@ const dbConfig = {
     port: 3306
 };
 
+// Initialize database connection
+let db;
+(async () => {
+    db = await mysql.createConnection(dbConfig);
+})();
+
 // Swagger setup
 const swaggerOptions = {
     definition: {
@@ -72,11 +78,13 @@ app.post('/register', async (req, res) => {
       const userId = uuidv4();
 
       // Connect to MySQL and execute stored procedure
-      const connection = await mysql.createConnection(dbConfig);
-      await connection.query('CALL registerUser(?, ?, ?)', [username, hashedPassword, email]);
+      // const connection = await mysql.createConnection(dbConfig);
+      // await connection.query('CALL registerUser(?, ?, ?)', 
+      await db.query('CALL registerUser(?, ?, ?)', 
+        [username, hashedPassword, email]);
 
       res.status(200).json({ message: 'User successfully registered' });
-      connection.end();
+      //connection.end();
   } catch (error) {
       console.error(error); // Log the error for debugging
       if (error.code === 'ER_DUP_ENTRY') {

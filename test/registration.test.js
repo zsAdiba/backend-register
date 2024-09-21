@@ -6,20 +6,19 @@ chai.use(chaiHttp); // Apply chai-http plugin
 const { expect } = chai; // Destructure expect from chai
 
 describe('Registration API', () => {
-    it('should register a new user', (done) => {
-        chai.request(app)
+    it('should register a new user', async () => {
+        const res = await chai.request(app)
             .post('/register')
             .send({
-                username: 'testuser', // Use a unique username for each test
+                username: 'testuser',
                 password: 'testpassword',
-                email: 'testuser@example.com' // Ensure the email is unique
-            })
-            .end((err, res) => {
-                expect(res).to.have.status(500);
-                expect(res.body).to.have.property('message', 'Error registering user');
-                done();
+                email: 'testuser@example.com'
             });
+    
+        expect(res).to.have.status(500);
+        expect(res.body).to.have.property('message', 'Error registering user');
     });
+    
 
     it('should fail when missing required fields', (done) => {
         chai.request(app)
