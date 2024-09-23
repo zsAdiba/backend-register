@@ -7,8 +7,7 @@ pipeline {
     }
 
     environment {
-        APP_NAME = 'registration-api'
-        IMAGE_NAME = 'rootx/${APP_NAME}' // Replace with your Docker Hub username or appropriate image name
+        IMAGE_NAME = 'rootx/registration-api' // Replace with your Docker Hub username or appropriate image name
         DEPLOY_DIR = '/var/www/registration-api' // Directory to deploy the app
     }
 
