@@ -1,10 +1,4 @@
 pipeline {
-    // agent {
-    //     docker {
-    //         image 'node:latest'  // Use the Node.js image for the pipeline
-    //         args '-v jenkins_home:/var/lib/docker/volumes/jenkins_home/_data'
-    //     }
-    // }
 
     agent any
 
@@ -14,7 +8,7 @@ pipeline {
 
     environment {
         APP_NAME = 'registration-api'
-        IMAGE_NAME = 'root.ccsd.com/${APP_NAME}' // Replace with your Docker Hub username or appropriate image name
+        IMAGE_NAME = 'rootx/${APP_NAME}' // Replace with your Docker Hub username or appropriate image name
         DEPLOY_DIR = '/var/www/registration-api' // Directory to deploy the app
     }
 
@@ -57,16 +51,16 @@ pipeline {
             }
         }
 
-        // stage('Build Docker Image') {
-        //     steps {
-        //         script {
-        //             // Build the Docker image
-        //             sh '''
-        //             docker build -t ${IMAGE_NAME}:latest .
-        //             '''
-        //         }
-        //     }
-        // }
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    // Build the Docker image
+                    sh '''
+                    docker build -t ${IMAGE_NAME}:latest .
+                    '''
+                }
+            }
+        }
         
         // stage('Check Deploy Directory') {
         //     steps {
