@@ -7,8 +7,9 @@ pipeline {
     }
 
     environment {
+        APP_NAME = 'registration-api'
         IMAGE_NAME = 'rootx/registration-api' // Replace with your Docker Hub username or appropriate image name
-        DEPLOY_DIR = '/var/www/registration-api' // Directory to deploy the app
+        DEPLOY_DIR = '/app/registration-api' // Directory to deploy the app
     }
 
     stages {
@@ -60,35 +61,26 @@ pipeline {
                 }
             }
         }
-        
-        // stage('Check Deploy Directory') {
-        //     steps {
-        //         script {
-        //             // This step is not necessary if you're using Docker
-        //             echo "Deploy directory check is unnecessary for Docker deployment."
-        //         }
-        //     }
-        // }
 
-        // stage('Deploy') {
-        //     steps {
-        //         script {
-        //             // Stop and remove existing container if it exists
-        //             sh '''
-        //             if [ "$(docker ps -q -f name=${APP_NAME})" ]; then
-        //                 echo "Stopping existing container ${APP_NAME}..."
-        //                 docker stop ${APP_NAME}
-        //                 echo "Removing existing container ${APP_NAME}..."
-        //                 docker rm ${APP_NAME}
-        //             fi
+        stage('Deploy') {
+            steps {
+                script {
+                    // Stop and remove existing container if it exists
+                    sh '''
+                    if [ "$(docker ps -q -f name=${APP_NAME})" ]; then
+                        echo "Stopping existing container ${APP_NAME}..."
+                        docker stop ${APP_NAME}
+                        echo "Removing existing container ${APP_NAME}..."
+                        docker rm ${APP_NAME}
+                    fi
 
-        //             // Run the new container
-        //             echo "Deploying new container ${APP_NAME}..."
-        //             docker run -d --name ${APP_NAME} -p 3002:3000 ${IMAGE_NAME}:latest
-        //             '''
-        //         }
-        //     }
-        // }
+                    // Run the new container
+                    echo "Deploying new container ${APP_NAME}..."
+                    docker run -d --name ${APP_NAME} -p 3002:3000 ${IMAGE_NAME}:latest
+                    '''
+                }
+            }
+        }
     }
 
     post {
