@@ -55,7 +55,7 @@ pipeline {
                 script {
                     // Build the Docker image
                     sh '''
-                    docker build -t ${IMAGE_NAME}:latest .
+                    sudo docker build -t ${IMAGE_NAME}:latest .
                     '''
                 }
             }
