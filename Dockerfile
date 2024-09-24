@@ -9,4 +9,4 @@ RUN npm install
 
 # Bundle app source
 COPY . /usr/src/app/backend-register-api
-CMD ["npm", "start"]
+CMD ["node", "server.js"]
