@@ -69,6 +69,14 @@ pipeline {
                 sh "docker run -d -p 3002:3002 --name ${APP_NAME} ${IMAGE_NAME}"
             }
         }
+
+        stage('Clean Up') {
+            steps {
+                script {
+                    sh 'docker rmi $(docker images -f "dangling=true" -q) || true'
+                }
+            }
+        }
     }
 
     post {
