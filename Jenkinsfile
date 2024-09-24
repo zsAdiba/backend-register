@@ -65,7 +65,8 @@ pipeline {
                 
                 // Run the new container
                 echo "Deploying new container ${APP_NAME}..."
-                sh "docker run -d --name ${APP_NAME} -p 3002:3002 ${IMAGE_NAME}"
+                //sh "docker run -d --name ${APP_NAME} -p 3002:3002 ${IMAGE_NAME}"
+                sh "docker run -d -p 3002:3002 --name ${APP_NAME} ${IMAGE_NAME}"
             }
         }
     }
