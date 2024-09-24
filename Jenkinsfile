@@ -51,9 +51,8 @@ pipeline {
             steps {
                 echo 'Starting deployment and activation...'
                 script {
-                    // Check if the container is running
-                    def containerId = sh(script: "docker ps -q -f name=${APP_NAME}", returnStdout: true).trim()
-                    
+                    // Check if the container is created
+                    def containerId = sh(script: "docker ps -a -q -f name=${APP_NAME}", returnStdout: true).trim()
                     if (containerId) {
                         echo "Stopping existing container ${APP_NAME}..."
                         sh "docker stop ${APP_NAME}"
