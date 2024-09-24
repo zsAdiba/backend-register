@@ -6,8 +6,8 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
 import cors from 'cors';
 
-app.use(cors());
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 // Database connection
