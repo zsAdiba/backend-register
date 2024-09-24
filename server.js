@@ -75,18 +75,18 @@ app.post('/register', async (req, res) => {
 
   try {
       const hashedPassword = await bcrypt.hash(password, 10);
-      const userId = uuidv4();
+    //   const userId = uuidv4();
 
       // Connect to MySQL and execute stored procedure
-      // const connection = await mysql.createConnection(dbConfig);
-      // await connection.query('CALL registerUser(?, ?, ?)', 
+    //   const connection = await mysql.createConnection(dbConfig);
+    //   await connection.query('CALL registerUser(?, ?, ?)', 
       await db.query('CALL registerUser(?, ?, ?)', 
         [username, hashedPassword, email]);
 
       res.status(200).json({ message: 'User successfully registered' });
-      //connection.end();
+    //   connection.end();
   } catch (error) {
-      console.error(error); // Log the error for debugging
+      //console.error(error); // Log the error for debugging
       if (error.code === 'ER_DUP_ENTRY') {
           return res.status(400).json({ message: 'Email already exists.' });
       }

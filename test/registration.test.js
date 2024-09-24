@@ -6,7 +6,7 @@ chai.use(chaiHttp); // Apply chai-http plugin
 const { expect } = chai; // Destructure expect from chai
 
 describe('Registration API', () => {
-    it('should register a new user', async () => {
+    it('should get DUPLICATE TEST account user', async () => {
         const res = await chai.request(app)
             .post('/register')
             .send({
