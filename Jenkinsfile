@@ -38,47 +38,30 @@ pipeline {
             }
         }
 
-        stage('Start Server') {
-            when {
-                expression { currentBuild.result == null || currentBuild.result == 'SUCCESS' }
-            }
-            steps {
-                script {
-                    // Start the server if tests passed
-                    sh 'node server.js &'
-                    echo 'Server started successfully.'
-                }
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
                 script {
                     // Build the Docker image
-                    sh '''
-                    sudo docker build -t ${IMAGE_NAME}:latest .
-                    '''
+                    sh 'docker build -t ${IMAGE_NAME} .'
                 }
             }
         }
 
         stage('Deploy') {
             steps {
-                script {
-                    // Stop and remove existing container if it exists
-                    sh '''
-                    if [ "$(sudo docker ps -q -f name=${APP_NAME})" ]; then
-                        echo "Stopping existing container ${APP_NAME}..."
-                        sudo docker stop ${APP_NAME}
-                        echo "Removing existing container ${APP_NAME}..."
-                        sudo docker rm ${APP_NAME}
-                    fi
-
-                    // Run the new container
-                    echo "Deploying new container ${APP_NAME}..."
-                    docker run -d --name ${APP_NAME} -p 3002:3000 ${IMAGE_NAME}:latest
-                    '''
-                }
+                echo 'Starting deployment and activation...'
+                sh """
+                if [ "\$(docker ps -q -f name=${APP_NAME})" ]; then
+                    echo "Stopping existing container ${APP_NAME}..."
+                    docker stop ${APP_NAME}
+                    echo "Removing existing container ${APP_NAME}..."
+                    docker rm ${APP_NAME}
+                fi
+                """
+                
+                // Run the new container
+                echo "Deploying new container ${APP_NAME}..."
+                sh "docker run -d --name ${APP_NAME} -p 3002:3000 ${IMAGE_NAME}"
             }
         }
     }
