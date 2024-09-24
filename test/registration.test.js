@@ -15,8 +15,8 @@ describe('Registration API', () => {
                 email: 'testuser@example.com'
             });
     
-        expect(res).to.have.status(500);
-        expect(res.body).to.have.property('message', 'Error registering user');
+        expect(res).to.have.status(400);
+        expect(res.body).to.have.property('message', 'Email already exists.');
     });
     
 
