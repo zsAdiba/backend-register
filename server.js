@@ -87,18 +87,10 @@ app.post('/register', async (req, res) => {
 
   try {
       const hashedPassword = await bcrypt.hash(password, 10);
-    //   const userId = uuidv4();
-
-      // Connect to MySQL and execute stored procedure
-    //   const connection = await mysql.createConnection(dbConfig);
-    //   await connection.query('CALL registerUser(?, ?, ?)', 
-      await db.query('CALL registerUser(?, ?, ?)', 
-        [username, hashedPassword, email]);
+      await db.query('CALL registerUser(?, ?, ?)', [username, hashedPassword, email]);
 
       res.status(200).json({ message: 'User successfully registered' });
-    //   connection.end();
   } catch (error) {
-      //console.error(error); // Log the error for debugging
       if (error.code === 'ER_DUP_ENTRY') {
           return res.status(400).json({ message: 'Email already exists.' });
       }
@@ -107,10 +99,6 @@ app.post('/register', async (req, res) => {
 });
 
 // Start server
-// const PORT = process.env.PORT || 3002;
-// app.listen(PORT, () => {
-//     console.log(`Server running on port ${PORT}`);
-// });
 app.listen(3002, '0.0.0.0', () => {
     console.log('Server is running on port 3002');
 });
