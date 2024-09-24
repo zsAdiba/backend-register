@@ -1,14 +1,22 @@
 import express from 'express';
 import bcrypt from 'bcryptjs';
-import { v4 as uuidv4 } from 'uuid';
 import mysql from 'mysql2/promise';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
 import cors from 'cors';
 
 const app = express();
-app.use(cors());
 app.use(express.json());
+
+// Configure CORS
+const corsOptions = {
+    origin: '*', // Allow all origins
+};
+
+// Use CORS with the specified options
+app.use(cors(corsOptions));
+
+
 
 // Database connection
 const dbConfig = {
