@@ -7,8 +7,25 @@ import cors from 'cors';
 
 const app = express();
 // Configure CORS
+// const corsOptions = {
+//     origin: '*', // Allow all origins
+// };
 const corsOptions = {
-    origin: '*', // Allow all origins
+    allowedHeaders: [
+        'X-ACCESS_TOKEN',
+        'Access-Control-Allow-Origin',
+        'Authorization',
+        'Origin',
+        'x-requested-with',
+        'Content-Type',
+        'Content-Range',
+        'Content-Disposition',
+        'Content-Description',
+    ],
+    credentials: true,
+    methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
+    origin: '*',
+    preflightContinue: false,
 };
 
 // Use CORS with the specified options
