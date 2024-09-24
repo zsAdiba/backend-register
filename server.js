@@ -4,7 +4,9 @@ import { v4 as uuidv4 } from 'uuid';
 import mysql from 'mysql2/promise';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
+import cors from 'cors';
 
+app.use(cors());
 const app = express();
 app.use(express.json());
 
