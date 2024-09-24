@@ -76,7 +76,7 @@ pipeline {
 
                     // Run the new container
                     echo "Deploying new container ${APP_NAME}..."
-                    sudo docker run -d --name ${APP_NAME} -p 3002:3000 ${IMAGE_NAME}:latest
+                    docker run -d --name ${APP_NAME} -p 3002:3000 ${IMAGE_NAME}:latest
                     '''
                 }
             }
