@@ -6,8 +6,6 @@ import swaggerJsdoc from 'swagger-jsdoc';
 import cors from 'cors';
 
 const app = express();
-app.use(express.json());
-
 // Configure CORS
 const corsOptions = {
     origin: '*', // Allow all origins
@@ -16,7 +14,11 @@ const corsOptions = {
 // Use CORS with the specified options
 app.use(cors(corsOptions));
 
+// Parse URL-encoded data
+app.use(express.urlencoded({ extended: true })); // Enables parsing of URL-encoded data
 
+// Parse JSON data
+app.use(express.json());
 
 // Database connection
 const dbConfig = {
