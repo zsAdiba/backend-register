@@ -15,7 +15,7 @@ describe('Registration API', () => {
                 email: 'testuser@example.com'
             });
     
-        expect(res).to.have.status.oneOf([400, 500]);
+        expect([400, 500]).to.include(res.status);
     });
     
 
