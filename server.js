@@ -1,8 +1,6 @@
 import express from 'express';
 import bcrypt from 'bcryptjs';
 import mysql from 'mysql2/promise';
-import swaggerUi from 'swagger-ui-express';
-import swaggerJsdoc from 'swagger-jsdoc';
 import cors from 'cors';
 
 const app = express();
@@ -51,33 +49,6 @@ const swaggerOptions = {
     apis: ['./server.js']
 };
 
-const swaggerDocs = swaggerJsdoc(swaggerOptions);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-
-/**
- * @swagger
- * /register:
- *   post:
- *     summary: Register a new user
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               username:
- *                 type: string
- *               password:
- *                 type: string
- *               email:
- *                 type: string
- *     responses:
- *       200:
- *         description: User successfully registered
- *       500:
- *         description: Server error
- */
 app.post('/register', async (req, res) => {
   const { username, password, email } = req.body;
 
