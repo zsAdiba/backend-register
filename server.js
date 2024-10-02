@@ -65,7 +65,7 @@ app.post('/register', async (req, res) => {
       if (error.code === 'ER_DUP_ENTRY') {
           return res.status(400).json({ message: 'Email already exists.' });
       }
-      return res.status(500).json({ message: 'Error registering user', error: error.message });
+      return res.status(500).json({ message: 'Error registering user, database not connected', error: error.message });
   }
 });
 
